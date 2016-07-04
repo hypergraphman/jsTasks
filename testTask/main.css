@@ -1,0 +1,90 @@
+@import "heart.css";
+
+@font-face {
+	font-family: "FiraSansLight";
+	src:url("fonts/FiraSans/FiraSans-Light.ttf");
+	font-style: normal;
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: "FiraSansMedium";
+	src:url("fonts/FiraSans/FiraSans-Medium.ttf");
+	font-style: normal;
+	font-weight: normal;
+}
+
+body {
+	min-width: 100%;
+	position: absolute;
+	top: 10%;
+}
+
+.content {
+	margin: 5px;
+	width: 460px;
+	height: 100%;
+	margin: 0 auto;
+}
+
+.image_accordion_test {
+	text-align: center;
+}
+
+.item_accordion:nth-child(2n) .header_ia{
+	background-color: #e7e7e7;
+	color: #4f4f4f;
+}
+
+.item_accordion:nth-child(2n+1) .header_ia{
+	background-color: #696666;
+	color: #fff;
+}
+
+.header_ia, .header_converse_ia {
+	padding: 10px 30px 10px 20px;
+	border-radius: 25px;
+	position: relative;
+	font-family: "FiraSansMedium";
+	font-size: 15px;
+}
+
+.item_accordion {
+	background-color: #e7e7e7;
+	border-radius: 25px;
+	margin: 5px 0px;
+}
+
+.inner_ia {
+	display: none;
+	padding: 5px 0px;
+}
+
+.inner_active_ia {
+	display: block;
+	padding: 5px 0px;
+}
+
+.item_list_ia {
+	padding: 5px 20px 5px 20px;
+}
+
+.item_accordion .header_ia:hover, .header_converse_ia {
+	background-color: #ff8663;
+	color: #fff;
+}
+
+a {
+	text-decoration: none;
+	color: #4f4f4f;
+	/*display: block;*/
+}
+
+.item_list_ia {
+	font-family: "FiraSansLight";
+	font-size: 15px;
+}
+
+.header_ia:hover, .header_converse_ia {
+	cursor: pointer;
+}
