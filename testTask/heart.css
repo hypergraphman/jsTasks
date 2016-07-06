@@ -94,18 +94,18 @@
     width: 8px;
     height: 13px;
     background: #fff;
-    -moz-border-radius: 0px 0px 10px 10px;
-    border-radius: 0px 0px 10px 10px;
+    -moz-border-radius: 0 0 10px 10px;
+    border-radius: 0 0 10px 10px;
     -webkit-transform: rotate(45deg);
        -moz-transform: rotate(45deg);
         -ms-transform: rotate(45deg);
          -o-transform: rotate(45deg);
             transform: rotate(45deg);
-    -webkit-transform-origin: 100% 0%;
-       -moz-transform-origin: 100% 0%;
-        -ms-transform-origin: 100% 0%;
-         -o-transform-origin: 100% 0%;
-            transform-origin: 100% 0%;
+    -webkit-transform-origin: 100% 0;
+       -moz-transform-origin: 100% 0;
+        -ms-transform-origin: 100% 0;
+         -o-transform-origin: 100% 0;
+            transform-origin: 100% 0;
 }
 
 .heart_converse_ia:after {
@@ -115,9 +115,9 @@
         -ms-transform: rotate(-45deg);
          -o-transform: rotate(-45deg);
             transform: rotate(-45deg);
-    -webkit-transform-origin: 0% 0%;
-       -moz-transform-origin: 0% 0%;
-        -ms-transform-origin: 0% 0%;
-         -o-transform-origin: 0% 0%;
-            transform-origin: 0% 0%;
+    -webkit-transform-origin: 0 0;
+       -moz-transform-origin: 0 0;
+        -ms-transform-origin: 0 0;
+         -o-transform-origin: 0 0;
+            transform-origin: 0 0;
 }

@@ -7,27 +7,30 @@ const _innerActive = "inner_active_ia";
 
 var acc=document.getElementsByClassName("item_accordion");
 
-function showItem(item)
+showItem = function(item)
 {
 	item.childNodes[1].className = _headerConverse;
 	item.childNodes[1].childNodes[3].className = _heartConverse;
 	item.childNodes[3].className = _innerActive;
-}
+};
 
-function hideItem(item)
+hideItem = function(item)
 {
 	item.childNodes[1].className = _header;
 	item.childNodes[1].childNodes[3].className = _heart;
 	item.childNodes[3].className = _inner;
-}
+};
 
 for (var i = 0; i < acc.length; i++) {
 	acc[i].onclick = function() {
-		//скрывать/открывать несколько элементов сразу
-		//this.childNodes[1].className === _header ? showItem(this) : hideItem(this);
+		// скрывать/открывать несколько элементов сразу
+		// Если this открыт, то закрываем его, иначе открываем
+		this.childNodes[1].className === _header ? showItem(this) : hideItem(this);
 
-		//открывать только один элемент
-		showItem(this);
+		// открывает this
+		// showItem(this);
+		
+		// закрывает все остальные элементы кроме this 
 		for (var j = 0; j < acc.length; j++)
 			if (this !== acc[j]) hideItem(acc[j]);
 	}
