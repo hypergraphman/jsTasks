@@ -15,7 +15,7 @@ let slice = function () {
     }
 
     // копируем массив по заданным индексам
-    for(let i = begin; i < end; i++) {
+    for(let i = begin; i < end && i < arguments[0].length; i++) {
         a[a.length] = arguments[0][i];
     }
 
@@ -27,8 +27,8 @@ module.exports = slice;
 
 // console.log('--------first test--------');
 // var fruits = ['Банан', 'Апельсин', 'Лимон', 'Яблоко', 'Манго'];
-// var citrus = fruits.slice(1,3);
-// let myA = slice(fruits,1,3);
+// var citrus = fruits.slice(1,10);
+// let myA = slice(fruits,1,10);
 //
 // console.log (citrus, myA);
 //
