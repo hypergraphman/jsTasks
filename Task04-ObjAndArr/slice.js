@@ -1,34 +1,54 @@
 /////////////       slice            //////////////////////
 //Аналог метода slice
 let slice = function () {
-    let a=[];
-    for (let i in arguments[0])
-        a[i] = arguments[1](arguments[0][i], i, arguments[0]);
+    let a     = [],
+        // вводим начальное и конечное значения индексов при пустых аргументах
+        begin = 0,
+        end   = arguments[0].length;
+
+    // если заданы индексы, то мы изменяем начальное и конечное значение среза массива
+    if(arguments.length >= 2) {
+        arguments[1] < 0 ? begin = end + arguments[1] : begin = arguments[1];
+    }
+    if(arguments.length === 3) {
+        arguments[2] < 0 ? end += arguments[2] : end = arguments[2];
+    }
+
+    // копируем массив по заданным индексам
+    for(let i = begin; i < end; i++) {
+        a[a.length] = arguments[0][i];
+    }
+
     return a;
 };
 ///////////////////////////////////////////////////////////
 
 module.exports = slice;
 
-//тестовые массивы
-let a1 = [100, 200, 300, 400],
-    a2 = ['first', 'second', '3th', '4th'],
-    a3 = [12, '12th', 13, '14th'];
-
-// Примеры тестов
-// тестовая функция
-function doubles(value) {
-    return value * 2;
-}
-
 // console.log('--------first test--------');
-// console.log(slice(a1, doubles));
-// console.log(a1.slice(doubles));
+// var fruits = ['Банан', 'Апельсин', 'Лимон', 'Яблоко', 'Манго'];
+// var citrus = fruits.slice(1,3);
+// let myA = slice(fruits,1,3);
 //
+// console.log (citrus, myA);
+//
+// // когда в качестве элемента объект, то это ссылка!!!
 // console.log('\n--------second test--------');
-// console.log(slice(a2, item => item + ' test'));
-// console.log(a2.slice(item => item + ' test'));
+// // Используя slice, создаём newCar из myCar.
+// var myHonda = { color: 'красный', wheels: 4, engine: { cylinders: 4, size: 2.2 } };
+// var myCar = [myHonda, 2, 'в хорошем состоянии', 'приобретена в 1997'];
+// var newCar = myCar.slice(0, 2);
+// let myA = slice(myCar, 0, 2)
 //
-// console.log('\n--------third test--------');
-// console.log(slice(a3, item => item + 10));
-// console.log(a3.slice(item => item + 10));
+// // Отображаем значения myCar, newCar и цвет myHonda
+// //  по ссылкам из обеих массивов.
+// console.log('newCar[0].color = ' + newCar[0].color);
+// console.log('myA[0].color = ' + myA[0].color);
+//
+// // Изменяем цвет myHonda.
+// myCar[0].color = 'багровый';
+// console.log('Новый цвет моей Honda - ' + myHonda.color);
+//
+// // Отображаем цвет myHonda по ссылкам из обеих массивов.
+// console.log('newCar[0].color = ' + newCar[0].color);
+// console.log('myА[0].color = ' + myA[0].color);
