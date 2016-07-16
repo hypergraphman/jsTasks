@@ -10,16 +10,9 @@ let reduce = function () {
         i = 0;
     }
 
-    try {
-        // если массив пуст и начальное значение не задано
-        if (arguments[0].length < i)
-            throw new TypeError('Reduce of empty array with no initial value', 'reduce.js');
-    } catch (e) {
-        // здесь я хотел так же как в консоли красиво выводить в каком месте произошла ошибка,
-        // стек вызовов и прекращение выполнения скрипта, но не смог найти инфу,
-        // а дальше терять время не хотел на это
-         console.log(e.stack);
-    }
+    // если массив пуст и начальное значение не задано
+    if (arguments[0].length < i)
+        throw new TypeError('Reduce of empty array with no initial value', 'reduce.js');
 
     for (; i < arguments[0].length; i++)
         val = arguments[1](val, arguments[0][i], i, arguments[0]);

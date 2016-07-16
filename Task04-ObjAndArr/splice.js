@@ -9,7 +9,7 @@ let splice = function () {
         // вводим начальное значение индекса места куда вставляем
         start    = arguments[1] < 0 ? arguments[0].length + arguments[1] : arguments[1],
         delCount = arguments[2];
-
+    if (start < 0) start = 0;
     // массив который удаляется
     removed = slice(arguments[0], start, start+delCount);
 
@@ -34,16 +34,18 @@ let splice = function () {
 
 module.exports = splice;
 
-// var myFish = ['ангел', 'клоун', 'мандарин', 'хирург'];
-//
-// // удаляет 0 элементов с индекса 2 и вставляет элемент 'барабанщик'
-//  var removed = splice(myFish, 2, 0, 'барабанщик');
+var myFish = ['ангел', 'клоун', 'мандарин', 'хирург'];
+var myFish2 = ['ангел', 'клоун', 'мандарин', 'хирург'];
+
+// удаляет 0 элементов с индекса 2 и вставляет элемент 'барабанщик'
+//  var removed = splice(myFish, -100, 0, 'барабанщик');
+// removed = myFish2.splice(-100, 0, 'барабанщик');
 // // myFish равен ['ангел', 'клоун', 'барабанщик', 'мандарин', 'хирург']
 // // removed равен [], никакие элементы не были удалены
 //
 // console.log(myFish);
 // console.log(removed);
-//
+// //
 // // удаляет 1 элемент с индекса 3
 // removed = splice(myFish, 3, 1);
 // // myFish равен ['ангел', 'клоун', 'барабанщик', 'хирург']

@@ -5,15 +5,10 @@ let deepEqual = function (thing1, thing2) {
     // if (thing1 instanceof Object && thing2 instanceof Object && (thing1 === thing2))
     //     return true;
 
-    try {
-        // Если объекты имеют разное кол-во свойств, то они точно не равны
-        if (Object.keys(thing1).length !== Object.keys(thing2).length)
-            return false;
-    }
-    catch (e) {
-        console.log('В свойствах объектах есть значения null или undefined, будьте столь любезны истправить это');
+    // Если объекты имеют разное кол-во свойств, то они точно не равны
+    if (Object.keys(thing1).length !== Object.keys(thing2).length)
         return false;
-    }
+
 
     // Если оба объекта дата, возвращаем булево значение их сравнения
     if (thing1 instanceof Date && thing2 instanceof Date) {
@@ -22,7 +17,7 @@ let deepEqual = function (thing1, thing2) {
 
     // Проверяет содержится ли в одном и том же свойстве разных объектов Нечисловой тип
     if (Number.isNaN(thing1) && Number.isNaN(thing2))
-        if (thing1 !== thing2) return true;
+        return true;
 
     // Если объект "примитив", то возвращаем булево значение их сравнения
     if (typeof thing1 === 'number' || typeof thing1 === 'string' || typeof thing1 === 'boolean')
@@ -37,7 +32,7 @@ let deepEqual = function (thing1, thing2) {
         else return false;
     }
 
-    // если за не удалось обнаружить несоответсвия свойств объектов, то они равны
+    // если не удалось обнаружить несоответсвия свойств объектов, то они равны
     return true;
 };
 ///////////////////////////////////////////////////////////

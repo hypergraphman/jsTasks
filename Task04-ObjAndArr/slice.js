@@ -10,6 +10,7 @@ let slice = function () {
     if(arguments.length >= 2) {
         arguments[1] < 0 ? begin = end + arguments[1] : begin = arguments[1];
     }
+    if(begin < 0) begin = 0;
     if(arguments.length === 3) {
         arguments[2] < 0 ? end += arguments[2] : end = arguments[2];
     }
@@ -27,10 +28,10 @@ module.exports = slice;
 
 // console.log('--------first test--------');
 // var fruits = ['Банан', 'Апельсин', 'Лимон', 'Яблоко', 'Манго'];
-// var citrus = fruits.slice(1,10);
-// let myA = slice(fruits,1,10);
+// var citrus = fruits.slice(-6);
+// let myA = slice(fruits,-10);
 //
-// console.log (citrus, myA);
+//  console.log (citrus, myA);
 //
 // // когда в качестве элемента объект, то это ссылка!!!
 // console.log('\n--------second test--------');
