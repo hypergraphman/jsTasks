@@ -58,8 +58,8 @@ let doc = document;
 let container = doc.querySelector('.i3');
 let newElement = doc.querySelector('.i2');
 
-console.log(container);
-console.log(newElement);
+// console.log(container);
+// console.log(newElement);
 
 prepend.prepend(container, newElement);
 
@@ -77,9 +77,21 @@ let deleteAllTextNodes = require('./deleteAllTextNodes');
 
 let scanDOM = require('./scanDOM');
 
-let sD = scanDOM.scanDOM(doc);
+let statistics = scanDOM.scanDOM(doc);
 
-console.log(sD);
+for (let item of statistics) {
+    if (item.type === 1 ) {
+        console.log(`Тэгов ${item.name}: ${item.count}\n`);
+    }
+    else if (item.type === 2 ) {
+        console.log(`Элементов с классом ${item.name}: ${item.count}\n`);
+    }
+    else if (item.type === 3) {
+        console.log(`Текстовых узлов: ${item.count}\n`);
+    }
+}
+
+
 },{"./deleteAllTextNodes":1,"./deleteTextNodes":2,"./prepend":4,"./scanDOM":5}],4:[function(require,module,exports){
 let prepend = function (container, newElement) {
     container.insertBefore(newElement, container.firstChild);
@@ -91,48 +103,44 @@ module.exports = {
     prepend : prepend
 };
 },{}],5:[function(require,module,exports){
-let thing = {
-    type  : undefined,
-    name  : undefined,
-    count : 0
-};
+// let thing = {
+//     type  : undefined,
+//     name  : undefined,
+//     count : 0
+// };
 
-let countByTagName = function (array, name) {
+let countByItemName = function (array, name, type) {
     let isCount = false;
     for (let item of array) {
-        if (item.name === name && item.type === 1) {
+        if (item.name === name && item.type === type) {
             item.count++;
-            isCount=true;
+            isCount = true;
         }
     }
     if (!isCount)
         array.push (new function () {
-            this.type  = 1;
+            this.type  = type;
             this.name  = name;
             this.count = 1;
         })
-
-    
 };
 
 let statistics = [];
-
-statistics.push(new function () {
-    this.type  = 3;
-    this.name  = 'Text';
-    this.count = 0;
-});
 
 let scanDOM = function (something) {
     let nodes = something.childNodes;
 
     for (let node of nodes) {
         if (node.nodeType === 1) {
-            countByTagName(statistics, node.tagName);
+            countByItemName(statistics, node.tagName, node.nodeType);
+            for (let attrClass of node.classList)
+                // условно поставили что тип класса у нас будет равен 2
+                // т.к. задача ученическая решил не заморачиваться и так оставил
+                countByItemName(statistics, attrClass, 2)
             scanDOM(node);
         }
         if (node.nodeType === 3) {
-            statistics[0].count++;
+            countByItemName(statistics, 'Text', node.nodeType);
         }
     }
 
