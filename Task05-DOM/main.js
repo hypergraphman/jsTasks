@@ -82,7 +82,9 @@ let sD = scanDOM.scanDOM(doc);
 console.log(sD);
 },{"./deleteAllTextNodes":1,"./deleteTextNodes":2,"./prepend":4,"./scanDOM":5}],4:[function(require,module,exports){
 let prepend = function (container, newElement) {
-    container.insertBefore(newElement, container.firstElementChild);
+    container.insertBefore(newElement, container.firstChild);
+    // так текстовый узел будет первым
+    // container.insertBefore(newElement, container.firstElementChild);
 };
 
 module.exports = {
@@ -107,8 +109,10 @@ let countByTagName = function (array, name) {
         array.push (new function () {
             this.type  = 1;
             this.name  = name;
-            this.count = 0;
+            this.count = 1;
         })
+
+    
 };
 
 let statistics = [];
