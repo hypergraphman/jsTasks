@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Button Style</title>
+    <style>
+        .buttonPanel {
+            text-align: center;
+        }
+        button[name="generationDiv"] {
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class = "buttonPanel"><button type="button" name="generationDiv">Generation DIV</button></div>
+
+    <script>
+        let activeDiv;
+        let doc = document;
+        let button = doc.querySelector("button[name='generationDiv']");
+        let offsetX = 0;
+        let offsetY = 0;
+        let count = 1;
+        let tempDiv;
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        let mDown = (e) => {
+            activeDiv = e.target;
+            offsetX = e.offsetX;
+            offsetY = e.offsetY;
+            // чтобы выбранный див оказывался на самом верху
+            tempDiv = doc.querySelector(`#div${count - 1}`);
+            tempDiv.style.zIndex = activeDiv.style.zIndex;
+            tempDiv.setAttribute('id',`div${tempDiv.style.zIndex}`);
+            tempDiv = null;
+
+            activeDiv.style.zIndex = count - 1;
+            activeDiv.setAttribute('id', `div${count - 1}`);
+        };
+        let mUp = (e) => {
+            activeDiv = null;
+            offsetX = 0;
+            offsetY = 0;
+        };
+        let mMove = (e) => {
+            if(activeDiv) {
+                activeDiv.style.left = e.clientX - offsetX + 'px';
+                activeDiv.style.top = e.clientY - offsetY + 'px';
+            }
+        };
+
+        let buttonClick = (event) => {
+
+            // создаем элемент див со всеми параметрами и событиями и добавляем в боди
+            let div = doc.createElement('div');
+            let body = doc.body;
+            let sideOfSquare = getRandomInt(10, 200),
+                    red = getRandomInt(0, 255),
+                    green = getRandomInt(0, 255),
+                    blue = getRandomInt(0, 255),
+                    alfaChanel = Math.random(),
+                    left = getRandomInt(15, window.innerWidth - sideOfSquare - 15),
+                    top = getRandomInt(30, window.innerHeight - sideOfSquare - 15);
+
+            div.setAttribute('id', `div${count}`);
+            div.style.position = 'absolute';
+            div.style.width = `${sideOfSquare}px`;
+            div.style.height = `${sideOfSquare}px`;
+            div.style.background = `rgba(${red}, ${green}, ${blue}, ${alfaChanel})`;
+            div.style.left = left + 'px';
+            div.style.top = top + 'px';
+            div.style.zIndex = count++;
+
+            div.addEventListener('mousedown', mDown);
+            div.addEventListener('mouseup', mUp);
+            div.addEventListener('mousemove', mMove);
+
+            body.insertBefore(div, body.lastChild);
+        };
+
+        button.addEventListener('click', buttonClick);
+    </script>
+</body>
+</html>
