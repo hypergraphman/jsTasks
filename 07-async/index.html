@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Асинхронность</title>
+    </head>
+    <body>
+
+        <input type='text'>
+        <div></div>
+        <script>
+
+            // таймер с промисом, лень было на одну строчку кода делать модуль.
+            let timer = milliseconds => {
+                return new Promise(resolve => setTimeout(resolve, milliseconds));
+            };
+
+            timer(3000).then(() => console.log('я вывелась через 3 секунды'));
+
+            let urlCities = 'https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json';
+
+            // промис который стучится на указанный урл
+            let loadCitiesAjax = url => {
+                return new Promise (resolve => {
+                    let xhr = new XMLHttpRequest();
+                    xhr.open('GET', url);
+                    xhr.responseType = 'json';
+                    xhr.addEventListener('load', () => {
+                        resolve(xhr.response);
+                    });
+                    xhr.send();
+                });
+            };
+
+            let div = document.querySelector('div');
+            // отсортированные города
+            loadCitiesAjax(urlCities).then(objCities => {
+                let arrayCities = [];
+                for ({name} of objCities) {
+                    arrayCities[arrayCities.length] = name;
+                }
+                arrayCities.sort();
+
+                for(let city of arrayCities) {
+                    div.innerText += city + '\n';
+                }
+            });
+
+            let input = document.querySelector('input');
+            // вывод городов
+            // происходит при каждом вводе в input запрос на список городов, список городов качается весь
+            // потом идет уже выборка по нужным.
+            input.addEventListener('keyup', event => {
+                loadCitiesAjax(urlCities).then(objCities => {
+                    div.innerText = '';
+                    for ({name} of objCities) {
+                        let tempCity = name.toUpperCase();
+                        if (~tempCity.indexOf(input.value.toUpperCase()) && input.value)
+                            div.innerText += name + '\n';
+                    }
+                });
+            });
+        </script>        
+    </body>
+</html>
