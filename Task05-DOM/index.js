@@ -23,17 +23,5 @@ let deleteAllTextNodes = require('./deleteAllTextNodes');
 
 let scanDOM = require('./scanDOM');
 
-let statistics = scanDOM.scanDOM(doc);
-
-for (let item of statistics) {
-    if (item.type === 1 ) {
-        console.log(`Тэгов ${item.name}: ${item.count}\n`);
-    }
-    else if (item.type === 2 ) {
-        console.log(`Элементов с классом ${item.name}: ${item.count}\n`);
-    }
-    else if (item.type === 3) {
-        console.log(`Текстовых узлов: ${item.count}\n`);
-    }
-}
+scanDOM.scanDOM(doc);
 
