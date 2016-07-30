@@ -68,7 +68,7 @@
             cookies = doc.cookie.split('; ');
         }
 
-        for (some of cookies) {
+        for (let some of cookies) {
             let someCookie = some.split('=');
             addCookieInNewRowTable(someCookie[0],someCookie[1],tblCookie);
         }

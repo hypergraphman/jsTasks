@@ -7,19 +7,33 @@
         .buttonPanel {
             text-align: center;
         }
-        button[name="generationDiv"] {
+        button {
             width: 200px;
+            margin: 5px;
         }
     </style>
 </head>
 <body>
-    <div class = "buttonPanel"><button type="button" name="generationDiv">Generation DIV</button></div>
+    <div class = "buttonPanel">
+        <button type="button" name="generationDiv">Generation DIV</button>
+        <button type="button" name="saveDivsInCookie">Save picture</button>
+        <button type="button" name="clearDivs">Clear picture</button>
+        <button type="button" name="loadDivsOfCookie">Upload a picture from a cookie</button>
+        <button type="button" name="clearDivsOfCookie">Clear the value of the cookie</button>
+        <button type="button" name="crazyPixels">Crazy pixels</button>
+    </div>
     <div id="canvas"></div>
 
     <script>
         let activeDiv;
         let doc = document;
-        let button = doc.querySelector("button[name='generationDiv']");
+        let btns = doc.getElementsByTagName('button');
+        let generationDiv     = btns[0],
+            saveDivsInCookie  = btns[1],
+            clearDivs         = btns[2],
+            loadDivsOfCookie  = btns[3],
+            clearDivsOfCookie = btns[4],
+            crazyPixels       = btns[5];
         let canvas = doc.querySelector("#canvas");
         let offsetX = 0,
             offsetY = 0;
@@ -50,19 +64,8 @@
         canvas.addEventListener('mouseup', mUp);
         canvas.addEventListener('mousemove', mMove);
 
-
-        let buttonClick = (event) => {
-
-            // создаем элемент див со всеми параметрами и событиями и добавляем на холст
-            // в качестве холста у нас элемент div с id="canvas"
+        let getSquare = (sideOfSquare, red, green, blue, alfaChanel, left, top) => {
             let div = doc.createElement('div');
-            let sideOfSquare = getRandomInt(10, 200),
-                red   = getRandomInt(0, 255),
-                green = getRandomInt(0, 255),
-                blue  = getRandomInt(0, 255),
-                alfaChanel   = Math.random(),
-                left = getRandomInt(15, window.innerWidth - sideOfSquare - 15),
-                top  = getRandomInt(30, window.innerHeight - sideOfSquare - 15);
 
             div.style.position = 'absolute';
             div.style.width  = `${sideOfSquare}px`;
@@ -71,10 +74,113 @@
             div.style.left = left + 'px';
             div.style.top  = top + 'px';
 
-            canvas.appendChild(div);
+//            console.log(parseFloat(div.style.background.split('(')[1].split(',')[3]));
+
+            return div;
         };
 
-        button.addEventListener('click', buttonClick);
+        let addSquare = () => {
+
+            // создаем элемент див со всеми параметрами и событиями и добавляем на холст
+            // в качестве холста у нас элемент div с id="canvas"
+            let sideOfSquare = getRandomInt(10, 200),
+                red   = getRandomInt(0, 255),
+                green = getRandomInt(0, 255),
+                blue  = getRandomInt(0, 255),
+                alfaChanel   = Math.random(),
+                left = getRandomInt(15, window.innerWidth - sideOfSquare - 15),
+                top  = getRandomInt(70, window.innerHeight - sideOfSquare - 15);
+
+            canvas.appendChild(getSquare(sideOfSquare, red, green, blue, alfaChanel, left, top));
+        };
+
+        generationDiv.addEventListener('click', addSquare);
+
+        let savePicture = () => {
+            let squars = canvas.childNodes;
+            let tempStr = '';
+            for (let square of squars) {
+                let sideOfSquare = parseInt(square.style.width),
+                    rgba = square.style.background,
+                    red = parseInt(rgba.split('(')[1].split(',')[0]),
+                    green = parseInt(rgba.split('(')[1].split(',')[1]),
+                    blue = parseInt(rgba.split('(')[1].split(',')[2]),
+                    // тут нужен парс, для того чтобы избавиться от лишней скобочки после сплита
+                    alfaChanel = parseFloat(rgba.split('(')[1].split(',')[3]),
+                    left = parseInt(square.style.left),
+                    top = parseInt(square.style.top);
+                tempStr += `d${sideOfSquare}-${red}-${green}-${blue}-${alfaChanel}-${left}-${top}`;
+            }
+
+            doc.cookie = 'saveDivs=' + tempStr;
+        };
+
+        saveDivsInCookie.addEventListener('click', savePicture);
+
+        let uploadDivs = () => {
+            if (doc.cookie) {
+                let cookies = doc.cookie.split('; ');
+                for (let cookie of cookies) {
+                    // если имя кукиса содержит 'saveDivs=' то можно этот куки парсить
+                    if (cookie.indexOf('saveDivs=d') === 0) {
+                        let squars = cookie.split('d');
+                        for(let i = 1; i < squars.length; i++) {
+                            squars[i] = squars[i].split('-');
+                            let square = getSquare(squars[i][0],squars[i][1],squars[i][2],squars[i][3],squars[i][4],squars[i][5],squars[i][6]);
+                            canvas.appendChild(square);
+                            // console.log(squars[i]);
+                        }
+
+                    }
+                }
+            }
+            loadDivsOfCookie.disabled = true;
+        };
+
+        // Если надо чтобы при загрузке появлялись все квадратики, то надо разкоментить стоку ниже
+        // uploadDivs();
+        loadDivsOfCookie.addEventListener('click', uploadDivs);
+
+        doc.addEventListener('load', uploadDivs);
+
+        let clearPic = () => {
+            canvas.innerText = '';
+            loadDivsOfCookie.disabled = false;
+        };
+
+        let clearValueCookie = () => {
+            doc.cookie = 'saveDivs=';
+            loadDivsOfCookie.disabled = true;
+        };
+
+        clearDivsOfCookie.addEventListener('click', clearValueCookie);
+
+        clearDivs.addEventListener('click', clearPic);
+
+        let crazyPix = () => {
+            clearPic();
+            let sizePix = 15;
+            let     left = 5,
+                    top,
+                    width  = window.innerWidth  - 5,
+                    height = window.innerHeight - 70;
+            for (let i = 1; i < width / sizePix; i++) {
+                top = 70;
+                for (let j = 1; j < height / sizePix; j++) {
+                    let     red   = getRandomInt(0, 255),
+                            green = getRandomInt(0, 255),
+                            blue  = getRandomInt(0, 255),
+                            alfaChanel   = 1; //Math.random();
+
+                    canvas.appendChild(getSquare(sizePix, red, green, blue, alfaChanel, left, top));
+
+                    top += sizePix;
+                }
+                left  += sizePix;
+            }
+        };
+
+        crazyPixels.addEventListener('click', crazyPix);
     </script>
 </body>
 </html>
