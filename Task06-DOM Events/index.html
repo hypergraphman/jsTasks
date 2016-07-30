@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Button Style</title>
+    <title>Creative square</title>
     <style>
         .buttonPanel {
             text-align: center;
@@ -162,11 +162,11 @@
             let sizePix = 15;
             let     left = 5,
                     top,
-                    width  = window.innerWidth  - 5,
-                    height = window.innerHeight - 70;
-            for (let i = 1; i < width / sizePix; i++) {
+                    lengthWidth  = (window.innerWidth  - 5) / sizePix,
+                    lengthHeight = (window.innerHeight - 70) /sizePix;
+            for (let countWidth = 1; countWidth < lengthWidth; countWidth++) {
                 top = 70;
-                for (let j = 1; j < height / sizePix; j++) {
+                for (let countHeight = 1; countHeight < lengthHeight; countHeight++) {
                     let     red   = getRandomInt(0, 255),
                             green = getRandomInt(0, 255),
                             blue  = getRandomInt(0, 255),
