@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BOM</title>
+    <style>
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        table {
+            margin: 5px;
+        }
+    </style>
+</head>
+    <body>
+        <div id="container">
+            <form>
+                <label>
+                    Name:
+                    <input type="text" name="nameCookie">
+                </label>
+                <label>
+                    Value:
+                    <input type="text" name="valueCookie">
+                </label>
+                <label>
+                    Shelf life in days:
+                    <input type="text" name="countDaysLifeCookie">
+                </label>
+                <button type="button" name="addCookieBtn">Add</button>
+            </form>
+            <table id="tableCookie" border="1">
+                <tr>
+                    <td>Name</td>
+                    <td>Value</td>
+                    <td>Button</td>
+                </tr>
+            </table>
+        </div>
+    </body>
+
+    <script>
+        let addCookieInNewRowTable = (name, value, tbl) => {
+            let row = doc.createElement('tr');
+            tbl.appendChild(row);
+
+            let cell1 = doc.createElement('td');
+            let cell2 = doc.createElement('td');
+            let cell3 = doc.createElement('td');
+            cell1.innerText = name;
+            cell2.innerText = value;
+            cell3.innerHTML = '<a href=#>Delete</a>';
+            row.appendChild(cell1);
+            row.appendChild(cell2);
+            row.appendChild(cell3);
+        };
+
+        let doc = document;
+        let cookies = [];
+        let container = doc.querySelector('#container');
+        let tblCookie = doc.querySelector('#tableCookie');
+        doc.cookie = 'petya=vasya';
+        doc.cookie = 'name1=kukareku';
+        doc.cookie = 'name2=myaw';
+
+        if (doc.cookie) {
+            cookies = doc.cookie.split('; ');
+        }
+
+        for (some of cookies) {
+            let someCookie = some.split('=');
+            addCookieInNewRowTable(someCookie[0],someCookie[1],tblCookie);
+        }
+
+        let delCookie = event => {
+            let tag = event.target;
+            if(tag.localName === 'a') {
+                let row = tag.parentNode.parentNode;
+                let nameCookie = row.firstChild.innerText;
+                if(confirm(`Remove a cookie with the name "${nameCookie}"?`)) {
+                    row.remove();
+                    doc.cookie = `${nameCookie}=; expires=${new Date(0)}`;
+                }
+            }
+        };
+
+        let addCookie = () => {
+            let nameElemForm = doc.getElementsByName('nameCookie')[0];
+            let valueElemForm = doc.getElementsByName('valueCookie')[0];
+            let countDaysElemForm = doc.getElementsByName('countDaysLifeCookie')[0];
+            let countDays = parseInt(countDaysElemForm.value);
+
+            if (nameElemForm.value && valueElemForm.value && countDays){
+                let dt = new Date();
+                dt.setDate(dt.getDate() + countDays);
+                // если указывать dt.toISOString() вместо dt, то работает не корректно
+                doc.cookie = `${nameElemForm.value}=${valueElemForm.value}; expires=${dt}`;
+                addCookieInNewRowTable(nameElemForm.value, valueElemForm.value,tblCookie);
+                nameElemForm.value = '';
+                valueElemForm.value = '';
+                countDaysElemForm.value = '';
+            }
+            else alert('Fill in all fields!');
+        };
+
+        tblCookie.addEventListener('click', delCookie);
+
+        let button = doc.getElementsByName('addCookieBtn')[0];
+
+        button.addEventListener('click', addCookie);
+    </script>
+</html>
